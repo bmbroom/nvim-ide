@@ -32,19 +32,14 @@ RUN apt-get update && \
 # 11. npm for NodeJS.
 # 12. tzdata to set default container timezone.
 # 13. Everything needed to install Neovim from source.
-RUN apt-get update && apt-get -y install curl fzf ripgrep tree git xclip python3 python3-pip nodejs npm tzdata ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config zip unzip
-
-# Cooperate Neovim with Python 3.
-RUN apt-get -y install python3-pynvim
-
-# Cooperate NodeJS with Neovim.
-RUN npm i -g neovim
-
-# Also install bat zoxide eza jq
-RUN apt-get -y install bat zoxide eza jq
-
-RUN apt-get -y install man wget
-
+# (Lines 27–39 replaced with:)
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+      curl fzf ripgrep tree git xclip python3 python3-pip python3-pynvim \
+      nodejs npm tzdata ninja-build gettext libtool libtool-bin autoconf automake \
+      cmake g++ pkg-config zip unzip bat zoxide eza jq man wget && \
+    rm -rf /var/lib/apt/lists/* && \
+    npm i -g neovim
 # Install Neovim from source.
 RUN mkdir -p /root/TMP && \
     cd /root/TMP && git clone https://github.com/neovim/neovim && \
