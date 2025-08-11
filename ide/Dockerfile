@@ -37,7 +37,7 @@ RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
       curl fzf ripgrep tree git xclip python3 python3-pip python3-pynvim \
       nodejs npm tzdata ninja-build gettext libtool libtool-bin autoconf automake \
-      cmake g++ pkg-config zip unzip bat zoxide eza jq man wget && \
+      cmake g++ pkg-config zip unzip bat zoxide eza jq man wget make && \
     rm -rf /var/lib/apt/lists/* && \
     npm i -g neovim
 # Install Neovim from source.
