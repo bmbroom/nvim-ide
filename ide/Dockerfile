@@ -6,11 +6,19 @@
 FROM debian:trixie
 
 # Set image locale.
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-ENV TZ US/Central
-ENV LC_ALL C.UTF-8
+# Replace the existing ENV lines:
+ENV TZ=America/Chicago
+ENV LANG=en_US.UTF-8
+ENV LANGUAGE=en_US:en
+ENV LC_ALL=en_US.UTF-8
+
 # Update repositories and install software:
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends locales tzdata && \
+    sed -i 's/^# *en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
+    locale-gen && \
+    ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone && \
+    rm -rf /var/lib/apt/lists/*
 # 1. curl.
 # 2. fzf for fast file search.
 # 3. ripgrep for fast text occurrence search.
