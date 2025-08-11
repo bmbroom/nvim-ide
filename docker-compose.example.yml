@@ -1,0 +1,16 @@
+services:
+
+  ide:
+    container_name: ide
+    init: true
+    build:
+      context: ./ide
+      args:
+        USER_NAME: ideuser
+        USER_GRP: idegrp
+        USER_UID: 2000
+        USER_GID: 2000
+    restart: unless-stopped
+    volumes:
+      - /host/path:/container/path
+      - ~/.ssh:/home/ideuser/.ssh:ro
