@@ -13,3 +13,4 @@ services:
     restart: unless-stopped
     volumes:
       - /host/path:/container/path
+      - ~/.ssh:/home/ideuser/.ssh:ro
