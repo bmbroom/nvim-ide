@@ -55,12 +55,11 @@ ARG USER_GRP
 ARG USER_UID
 ARG USER_GID
 
-RUN mkdir -p /home/${USER_NAME} && \
-    useradd -l -u ${USER_UID} -r ${USER_NAME} -M -d /home/${USER_NAME} && \
-    groupadd -g ${USER_GID} ${USER_GRP} && \
-    usermod -g ${USER_GRP} ${USER_NAME} && \
-    mkdir /home/${USER_NAME}/.ssh && \
-    chown -R ${USER_UID}:${USER_GID} /home/${USER_NAME}
+RUN groupadd -g ${USER_GID} ${USER_GRP} && \
+    useradd -l -u ${USER_UID} -g ${USER_GRP} -m -d /home/${USER_NAME} -s /bin/bash ${USER_NAME} && \
+    mkdir -p /home/${USER_NAME}/.ssh && \
+    chown -R ${USER_UID}:${USER_GID} /home/${USER_NAME} && \
+    chmod 700 /home/${USER_NAME}/.ssh
 
 USER ${USER_UID}:${USER_GID}
 WORKDIR /home/${USER_NAME}
